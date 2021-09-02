@@ -52,6 +52,7 @@ class Main(webdriver.Chrome):
         btn.click()
         print("Sum button clicked")
 
+
     def final(self):
         try:   # Explicit Wait is code you define to wait for a certain condition to occur before proceeding further in the code
             WebDriverWait(self, 10).until(
@@ -64,6 +65,7 @@ class Main(webdriver.Chrome):
         except:
             AttributeError
             print("\nPassed the AttributeError Succesfully")
+
 
     def __exit__(self, exc_type, exc_val, exc_to):
         if self.teardown:
