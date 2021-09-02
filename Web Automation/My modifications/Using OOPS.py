@@ -55,7 +55,7 @@ class Secondary(Main):   # Using call parent method
             print("Sum button clicked")
 
 
-class Final(Main and Secondary):
+class Final(Secondary):
         def driver_wait(self):
             try:   # Explicit Wait is code you define to wait for a certain condition to occur before proceeding further in the code
                 WebDriverWait(self, 5).until(
