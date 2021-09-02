@@ -29,57 +29,60 @@ class Main(webdriver.Chrome):
         except:
             print("\n No element with this class name. Skipping the process")
 
-    def message(self):
-        msg = self.find_element_by_id("user-message")
-        msg.send_keys("Hello World")
 
-    def text_btn(self):
-        btn = self.find_element_by_css_selector(
-            "button[onclick='showInput();']")
-        btn.click()
-        print("text button clicked")
+class Secondary(Main):   # Using call parent method
+        def message(self):
+            msg = self.find_element_by_id("user-message")
+            msg.send_keys("Hello World")
 
-    def sum(self):
-        sum1 = self.find_element_by_id("sum1")
-        sum2 = self.find_element_by_id("sum2")
+        def text_btn(self):
+            btn = self.find_element_by_css_selector(
+                "button[onclick='showInput();']")
+            btn.click()
+            print("text button clicked")
 
-        sum1.send_keys(Keys.NUMPAD1, Keys.NUMPAD4)
-        sum2.send_keys(Keys.NUMPAD6, Keys.NUMPAD8)
+        def sum(self):
+            sum1 = self.find_element_by_id("sum1")
+            sum2 = self.find_element_by_id("sum2")
 
-    def sum_button(self):
-        btn = self.find_element_by_css_selector(
-            "button[onclick='return total()']")
-        btn.click()
-        print("Sum button clicked")
+            sum1.send_keys(Keys.NUMPAD1, Keys.NUMPAD4)
+            sum2.send_keys(Keys.NUMPAD6, Keys.NUMPAD8)
+
+        def sum_button(self):
+            btn = self.find_element_by_css_selector(
+                "button[onclick='return total()']")
+            btn.click()
+            print("Sum button clicked")
 
 
-    def final(self):
-        try:   # Explicit Wait is code you define to wait for a certain condition to occur before proceeding further in the code
-            WebDriverWait(self, 10).until(
-                EC.text_to_be_present_in_element(
-                    (By.CLASS_NAME, "progress-label"),   # Element filteration
-                    'Complete!'     # The expected text
+class Final(Main and Secondary):
+        def driver_wait(self):
+            try:   # Explicit Wait is code you define to wait for a certain condition to occur before proceeding further in the code
+                WebDriverWait(self, 5).until(
+                    EC.text_to_be_present_in_element(
+                        (By.CLASS_NAME, "progress-label"),   # Element filteration
+                        'Complete!'     # The expected text
+                    )
                 )
-            )
-            print("Four")
-        except:
-            AttributeError
-            print("\nPassed the AttributeError Succesfully")
+                print("Four")
+            except:
+                AttributeError
+                print("\nPassed the AttributeError Succesfully")
 
-
-    def __exit__(self, exc_type, exc_val, exc_to):
-        if self.teardown:
-            self.quit()
-            print("Exit")
+        def __exit__(self, exc_type, exc_val, exc_to):
+            if self.teardown:
+                self.quit()
+                print("Exit")
 
 
 if __name__ == "__main__":
-    with Main() as mn:
-        mn.first_page()
-        mn.popup_skip()
-        mn.message()
-        mn.text_btn()
-        mn.sum()
-        mn.sum_button()
-        mn.final()
+    with Final() as fin:
+        fin.first_page()
+        fin.popup_skip()
+        fin.message()
+        fin.text_btn()
+        fin.sum()
+        fin.sum_button()
+        fin.driver_wait()
+        
         print("Done")
