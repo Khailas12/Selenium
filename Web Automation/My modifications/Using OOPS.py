@@ -14,7 +14,7 @@ class Main(webdriver.Chrome):
         self.path = path
         self.teardown = teardown
         os.environ["PATH"] += self.path
-        super(Main, self).__init__()
+        super(Main, self).__init__()    # super() method lets you access methods in a parent class
 
     def first_page(self):
         self.get(URL)
