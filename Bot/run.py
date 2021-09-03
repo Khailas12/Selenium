@@ -9,5 +9,3 @@ with Booking() as bot:
     bot.select_adults(1)
     bot.click_search()
     print("\nCompleted!")
-    
-    

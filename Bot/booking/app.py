@@ -84,6 +84,3 @@ class Booking(webdriver.Chrome):
             'button[type="submit"]'
         )
         search_button.click()
-        
-        
-            
