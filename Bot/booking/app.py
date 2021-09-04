@@ -1,5 +1,6 @@
 import booking.constants as const
 from selenium import webdriver
+from booking.booking_filteration import BookingFilteration
 import os
 
 
@@ -19,17 +20,23 @@ class Booking(webdriver.Chrome):
     def land_first_page(self):
         self.get(const.BASE_URL)
     
-    def change_currency(self, currency=None):
+    def change_currency(self):
         currency_element = self.find_element_by_css_selector(
             'button[data-tooltip-text="Choose your currency"]'
         )
         currency_element.click()
+        try:
+            selected_currency_element = self.find_element_by_css_selector(
+                f'a[data-modal-header-async-url-param="changed_currency=1;selected_currency=USD;top_currency=1"]'
+            )
         
-        selected_currency_element = self.find_element_by_css_selector(
-            f'a[data-modal-header-async-url-param*="selected_currency={currency}"]'
-            # f'a[data-modal-header-async-url-param="changed_currency=1;selected_currency=GBP;top_currency=1"]'
-        )
-        selected_currency_element.click()
+                # f'a[data-modal-header-async-url-param*="selected_currency={selected_currency}"]'
+            
+            selected_currency_element.click()
+            print("\nCurrency done")
+            
+        except:
+            print("Passed")
     
     def language(self, lang=None):
         language_element = self.find_element_by_css_selector(
@@ -66,21 +73,31 @@ class Booking(webdriver.Chrome):
     
     
     def select_adults(self, count=1):
-        selection_element = self.find_element_by_id(
-            'xp__guests__toggle'
-        )
-        selection_element.click()
-        
-        while True:
-            increase_button_element = self.find_element_by_css_selector(
-                'button[aria-label="Increase number of Adults"]'
+        try:
+            selection_element = self.find_element_by_id(
+                'xp__guests__toggle'
             )
-            for _ in range(count - 1):
-                increase_button_element.click()
-                
+            selection_element.click()
+            
+            while True:
+                increase_button_element = self.find_element_by_css_selector(
+                    'button[aria-label="Increase number of Adults"]'
+                )
+                for _ in range(count - 1):
+                    increase_button_element.click()
+                    print("No of adults done")
+        except:
+            print("")        
             
     def click_search(self):
         search_button = self.find_element_by_css_selector(
             'button[type="submit"]'
-        )
+            )
         search_button.click()
+        print("\nSearch button clicked")
+
+
+    def apply_filterations(self):
+        BookingFilteration(driver=self)
+        
+        
