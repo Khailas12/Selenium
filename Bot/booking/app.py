@@ -110,7 +110,8 @@ class Booking(webdriver.Chrome):
         print("\nSearch button clicked")
 
 
-    def apply_filterations(self):
-        filteration = BookingFiltration(driver=self)
-        filteration.apply_star_rating(3, 4, 5)
+    def apply_filtrations(self):
+        filtration = BookingFiltration(driver=self)
+        filtration.apply_star_rating(3, 4, 5)
         
+        filtration.sort_lowest_price()

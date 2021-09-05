@@ -14,7 +14,11 @@ class BookingFiltration:
                 if str(star_element.get_attribute('innerHTML')).strip() == f'{star_value} stars':
                     star_element.click()
 
-
+    def sort_lowest_price(self):
+        price_element = self.driver.find_element_by_css_selector(
+            'li[data-id="price"]'
+        )
+        price_element.click()
 
 
 # This helps to interact with the website after some results, to apply filterations
