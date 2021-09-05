@@ -9,6 +9,7 @@ with Booking() as bot:
     bot.calendar(check_in="2021-09-20", check_out="2021-09-27")
     bot.select_adults(10)
     bot.click_search()
-    bot.quit()
+    bot.apply_filterations()
+    # bot.quit()
     print("\nCompleted!")
     

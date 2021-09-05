@@ -1,6 +1,6 @@
 import booking.constants as const
 from selenium import webdriver
-from booking.booking_filteration import BookingFilteration
+from booking.booking_filtration import BookingFiltration
 import os
 
 
@@ -111,6 +111,6 @@ class Booking(webdriver.Chrome):
 
 
     def apply_filterations(self):
-        BookingFilteration(driver=self)
-        
+        filteration = BookingFiltration(driver=self)
+        filteration.apply_star_rating(3, 4, 5)
         
