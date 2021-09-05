@@ -1,19 +1,28 @@
 from booking.app import Booking
 
+
 try:
     with Booking() as bot:
         bot.land_first_page()
         bot.change_currency()
         bot.language(lang="en-gb")
-        bot.select_place_to_go("New York")
+        bot.select_place_to_go(input("\nWhere do u wanna go?: "))
         
-        bot.calendar(check_in="2021-09-20", check_out="2021-09-27")
+
+        print("\nFormat: YYYY-MM-DD")
+        bot.calendar(
+            check_in=input("Enter the checkin Date: "),
+            check_out=input("\nEnter the checkout Date: ")
+            )
         
-        bot.select_adults(2)
+        bot.select_adults(int(input("\nNo. of people: ")))
         bot.click_search()
         bot.apply_filtrations()
-        # bot.quit()
+        bot.refresh()   # a workaround to let the bot to grab the data properly
+        bot.report_results()
+        bot.quit()
         print("\nCompleted!")
+        
         
 except Exception as e:
     if 'in PATH' in str(e):
