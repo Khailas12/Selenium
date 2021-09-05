@@ -25,18 +25,16 @@ class Booking(webdriver.Chrome):
             'button[data-tooltip-text="Choose your currency"]'
         )
         currency_element.click()
-        try:
-            selected_currency_element = self.find_element_by_css_selector(
-                f'a[data-modal-header-async-url-param="changed_currency=1;selected_currency=USD;top_currency=1"]'
-            )
+
+        selected_currency_element = self.find_element_by_css_selector(
+            f'a[data-modal-header-async-url-param="changed_currency=1;selected_currency=USD;top_currency=1"]'
+        )
+    
+            # f'a[data-modal-header-async-url-param*="selected_currency={selected_currency}"]'
         
-                # f'a[data-modal-header-async-url-param*="selected_currency={selected_currency}"]'
-            
-            selected_currency_element.click()
-            print("\nCurrency done")
-            
-        except:
-            print("Passed")
+        selected_currency_element.click()
+        print("\nCurrency done")
+
     
     def language(self, lang=None):
         language_element = self.find_element_by_css_selector(
@@ -50,6 +48,7 @@ class Booking(webdriver.Chrome):
         select_language_element.click()
         print("Language done")
         
+        
     def select_place_to_go(self, place_to_go):
         search_field = self.find_element_by_id('ss')
         search_field.clear()
@@ -59,6 +58,7 @@ class Booking(webdriver.Chrome):
             'li[data-i="0"]'
         )
         first_result.click()
+        
         
     def calendar(self, check_in, check_out):
         check_in_element = self.find_element_by_css_selector(
@@ -72,22 +72,35 @@ class Booking(webdriver.Chrome):
         check_out_element.click()
     
     
+    
     def select_adults(self, count=1):
-        try:
-            selection_element = self.find_element_by_id(
-                'xp__guests__toggle'
+        selection_element = self.find_element_by_id(
+            'xp__guests__toggle'
+        )
+        selection_element.click()
+        
+        while True:
+            decrease_adults_element = self.find_element_by_css_selector(
+                'button[aria-label="Decrease number of Adults"]'
             )
-            selection_element.click()
+            decrease_adults_element.click()
             
-            while True:
-                increase_button_element = self.find_element_by_css_selector(
-                    'button[aria-label="Increase number of Adults"]'
-                )
-                for _ in range(count - 1):
-                    increase_button_element.click()
-                    print("No of adults done")
-        except:
-            print("")        
+            adults_value_element = self.find_element_by_id(
+                'group_adults'
+            )
+            adults_value = adults_value_element.get_attribute('value')
+            
+            if int(adults_value) == 1:
+                break
+                
+
+        increase_button_element = self.find_element_by_css_selector(
+            'button[aria-label="Increase number of Adults"]'
+        )
+        for _ in range(count - 1):
+            increase_button_element.click()
+
+
             
     def click_search(self):
         search_button = self.find_element_by_css_selector(

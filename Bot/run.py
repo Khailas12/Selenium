@@ -1,5 +1,6 @@
 from booking.app import Booking
 
+
 with Booking() as bot:
     bot.land_first_page()
     bot.change_currency()
@@ -8,4 +9,6 @@ with Booking() as bot:
     bot.calendar(check_in="2021-09-20", check_out="2021-09-27")
     bot.select_adults(10)
     bot.click_search()
+    bot.quit()
     print("\nCompleted!")
+    
