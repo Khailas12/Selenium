@@ -9,16 +9,22 @@ class Booking(webdriver.Chrome):
         self.driver_path = driver_path
         self.teardown = teardown
         os.environ['PATH'] += self.driver_path
-        super(Booking, self).__init__()
+        
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])  # To stop showing -> "Passthrough is not supported, GL is disabled"
+        
+        super(Booking, self).__init__(options=options)
         self.implicitly_wait(5)
         self.maximize_window()
-        
-    def __exit__(self, exc_type, exc_val, exc_to):
+
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
         if self.teardown:
             self.quit()
         
     def land_first_page(self):
         self.get(const.BASE_URL)
+    
     
     def change_currency(self):
         currency_element = self.find_element_by_css_selector(
@@ -111,7 +117,10 @@ class Booking(webdriver.Chrome):
 
 
     def apply_filtrations(self):
-        filtration = BookingFiltration(driver=self)
-        filtration.apply_star_rating(3, 4, 5)
-        
-        filtration.sort_lowest_price()
+        try:
+            filtration = BookingFiltration(driver=self)
+            filtration.apply_star_rating(3, 4, 5)
+            
+            filtration.sort_lowest_price()
+        except Exception:
+            print("Passed filtration")
